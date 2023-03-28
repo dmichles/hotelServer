@@ -12,7 +12,7 @@ public class Hotel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @JsonIgnore
+
     private Long id;
 
     private String name;
