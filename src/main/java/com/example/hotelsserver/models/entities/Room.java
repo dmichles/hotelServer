@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String type;
@@ -24,12 +25,15 @@ public class Room {
     private String people;
 
     @ManyToOne
-    @JoinColumn(name ="hotel_id")
+    @JoinColumn(name = "hotel_id")
     @JsonIgnore
     private Hotel hotel;
 
+    @OneToMany(mappedBy = "room")
+    private Set<Reservation> reservations;
+
     public Room(Long id, String roomType, BigDecimal roomPrice, Hotel hotel, String picUrl,
-                String area, String bed, String people) {
+                String area, String bed, String people, Set<Reservation> reservations) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -38,9 +42,11 @@ public class Room {
         this.area = area;
         this.bed = bed;
         this.people = people;
+        this.reservations = reservations;
     }
 
-    public Room() {}
+    public Room() {
+    }
 
     public Long getId() {
         return id;
@@ -104,5 +110,13 @@ public class Room {
 
     public void setPeople(String people) {
         this.people = people;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
