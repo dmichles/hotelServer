@@ -23,12 +23,20 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
     private Set<Room> rooms;
-    public Hotel(String name, String picUrl, String to, Set<Room> rooms, String stars) {
+
+    @OneToOne(mappedBy = "hotel")
+    @JsonIgnore
+    private Amenities amenities;
+
+
+
+    public Hotel(String name, String picUrl, String to, Set<Room> rooms, String stars, Amenities amenities) {
         this.name = name;
         this.picUrl = picUrl;
         this.to = to;
         this.rooms = rooms;
         this.stars = stars;
+        this.amenities = amenities;
     }
 
     public Hotel() {
@@ -81,5 +89,13 @@ public class Hotel {
 
     public void setStars(String stars) {
         this.stars = stars;
+    }
+
+    public Amenities getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(Amenities amenities) {
+        this.amenities = amenities;
     }
 }
