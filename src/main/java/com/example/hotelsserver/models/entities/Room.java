@@ -30,6 +30,7 @@ public class Room {
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room")
+    @JsonIgnore
     private Set<Reservation> reservations;
 
     public Room(Long id, String roomType, BigDecimal roomPrice, Hotel hotel, String picUrl,

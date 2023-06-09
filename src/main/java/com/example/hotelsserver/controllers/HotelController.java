@@ -9,6 +9,7 @@ import com.example.hotelsserver.utilities.SortRoomsByPrice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class HotelController {
 
     @PostMapping("/addReservation")
     public ResponseEntity<?> addReservation(@RequestBody ReservationDto reservationDto) {
-        System.out.println(reservationDto.getRoomId());
+
         Reservation reservation = new Reservation();
         reservation.setStartDate(reservationDto.getStartDate());
         reservation.setEndDate(reservationDto.getEndDate());
@@ -68,5 +69,22 @@ public class HotelController {
         reservation.setRoom(room);
         reservationRepository.save(reservation);
         return ResponseEntity.ok(reservation);
+    }
+
+    @GetMapping("/getReservations")
+    public ResponseEntity<?> findRooms() {
+        List<Object[]> query = reservationRepository.returnObject();
+        List<QueryDto> rooms = new ArrayList<>();
+
+        for (Object[] obj: query) {
+            QueryDto room = new QueryDto();
+            room.setId((Long) obj[0]);
+            room.setStartDate((String) obj[1]);
+            room.setEndDate((String) obj[2]);
+            room.setType((String) obj[3]);
+            room.setName((String) obj[4]);
+            rooms.add(room);
+        }
+        return  ResponseEntity.ok(rooms);
     }
 }

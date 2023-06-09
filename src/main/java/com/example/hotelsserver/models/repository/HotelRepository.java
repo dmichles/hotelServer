@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
     Hotel findHotelByName(String name);
     Hotel findHotelByTo(String to);
+    Hotel findHotelById(Long id);
 }
