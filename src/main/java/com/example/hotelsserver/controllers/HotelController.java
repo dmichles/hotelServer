@@ -1,11 +1,11 @@
 package com.example.hotelsserver.controllers;
 
 import com.example.hotelsserver.models.entities.*;
-import com.example.hotelsserver.models.repository.AmenitiesRepository;
 import com.example.hotelsserver.models.repository.HotelRepository;
 import com.example.hotelsserver.models.repository.ReservationRepository;
 import com.example.hotelsserver.models.repository.RoomRepository;
 import com.example.hotelsserver.utilities.SortRoomsByPrice;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +20,14 @@ public class HotelController {
     private final RoomRepository roomRepository;
     private final ReservationRepository reservationRepository;
 
-    private final AmenitiesRepository amenitiesRepository;
 
     public HotelController(HotelRepository hotelRepository,
                            RoomRepository roomRepository,
-                           ReservationRepository reservationRepository,
-                           AmenitiesRepository amenitiesRepository) {
+                           ReservationRepository reservationRepository
+    ) {
         this.hotelRepository = hotelRepository;
         this.roomRepository = roomRepository;
         this.reservationRepository = reservationRepository;
-        this.amenitiesRepository = amenitiesRepository;
     }
 
     @GetMapping("/hotels")
@@ -39,7 +37,7 @@ public class HotelController {
     }
 
     @GetMapping("/getRooms")
-    public ResponseEntity<?> getRooms(@RequestParam String to){
+    public ResponseEntity<?> getRooms(@RequestParam String to) {
         Hotel hotel = hotelRepository.findHotelByTo(to);
         List<Room> rooms = roomRepository.findAllByHotel_Id(hotel.getId());
         Collections.sort(rooms, new SortRoomsByPrice());
@@ -52,16 +50,9 @@ public class HotelController {
         return ResponseEntity.ok(hotel);
     }
 
-    @GetMapping("/getAmenities")
-    public ResponseEntity<?> getAmenities(@RequestParam String to) {
-        Hotel hotel = hotelRepository.findHotelByTo(to);
-        Amenities amenities = amenitiesRepository.findByHotel_Id(hotel.getId());
-        return ResponseEntity.ok(amenities);
-    }
-
     @PostMapping("/addReservation")
     public ResponseEntity<?> addReservation(@RequestBody ReservationDto reservationDto) {
-
+        System.out.println(reservationDto.getRoomId());
         Reservation reservation = new Reservation();
         reservation.setStartDate(reservationDto.getStartDate());
         reservation.setEndDate(reservationDto.getEndDate());
@@ -76,7 +67,7 @@ public class HotelController {
         List<Object[]> query = reservationRepository.returnObject();
         List<QueryDto> rooms = new ArrayList<>();
 
-        for (Object[] obj: query) {
+        for (Object[] obj : query) {
             QueryDto room = new QueryDto();
             room.setId((Long) obj[0]);
             room.setStartDate((String) obj[1]);
@@ -85,6 +76,13 @@ public class HotelController {
             room.setName((String) obj[4]);
             rooms.add(room);
         }
-        return  ResponseEntity.ok(rooms);
+        return ResponseEntity.ok(rooms);
+    }
+
+    @DeleteMapping("/deleteReservation")
+    public ResponseEntity<?> deleteReservation(@RequestParam String id) {
+        Reservation reservation = reservationRepository.findReservationById(Long.parseLong(id));
+        reservationRepository.delete(reservation);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

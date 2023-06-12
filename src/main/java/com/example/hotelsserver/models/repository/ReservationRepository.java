@@ -15,4 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "SELECT Reservation.id, Reservation.start_date, Reservation.end_date, Room.type, Hotel.name FROM Reservation INNER JOIN Room ON Reservation.room_id = Room.id INNER JOIN Hotel ON Room.hotel_id = Hotel.id",nativeQuery = true)
     List<Object[]> returnObject();
 
+    Reservation findReservationById(Long id);
 }

@@ -3,6 +3,7 @@ package com.example.hotelsserver.models.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -24,13 +25,11 @@ public class Hotel {
     @JsonIgnore
     private Set<Room> rooms;
 
-    @OneToOne(mappedBy = "hotel")
-    @JsonIgnore
-    private Amenities amenities;
+    @ElementCollection
+    private List<String> amenities;
 
 
-
-    public Hotel(String name, String picUrl, String to, Set<Room> rooms, String stars, Amenities amenities) {
+    public Hotel(String name, String picUrl, String to, Set<Room> rooms, String stars, List<String> amenities) {
         this.name = name;
         this.picUrl = picUrl;
         this.to = to;
@@ -91,11 +90,11 @@ public class Hotel {
         this.stars = stars;
     }
 
-    public Amenities getAmenities() {
+    public List<String> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(Amenities amenities) {
+    public void setAmenities(List<String> amenities) {
         this.amenities = amenities;
     }
 }

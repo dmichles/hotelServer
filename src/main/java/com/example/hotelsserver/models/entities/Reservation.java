@@ -12,7 +12,7 @@ public class Reservation {
     private String endDate;
     @ManyToOne
     @JoinColumn(name = "room_id")
-    @JsonIgnore
+
     private Room room;
     public Reservation(Long id, String startDate, String endDate, Room room) {
         this.id = id;
