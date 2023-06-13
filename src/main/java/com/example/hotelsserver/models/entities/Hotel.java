@@ -22,14 +22,14 @@ public class Hotel {
     private String stars;
 
     @OneToMany(mappedBy = "hotel")
-    @JsonIgnore
-    private Set<Room> rooms;
+
+    private List<Room> rooms;
 
     @ElementCollection
     private List<String> amenities;
 
 
-    public Hotel(String name, String picUrl, String to, Set<Room> rooms, String stars, List<String> amenities) {
+    public Hotel(String name, String picUrl, String to, List<Room> rooms, String stars, List<String> amenities) {
         this.name = name;
         this.picUrl = picUrl;
         this.to = to;
@@ -74,11 +74,11 @@ public class Hotel {
         this.to = to;
     }
 
-    public Set<Room> getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Set<Room> rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 

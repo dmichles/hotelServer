@@ -33,6 +33,9 @@ public class HotelController {
     @GetMapping("/hotels")
     public ResponseEntity<?> getHotels() {
         List<Hotel> hotels = hotelRepository.findAll();
+        for (Hotel hotel: hotels) {
+            Collections.sort(hotel.getRooms(), new SortRoomsByPrice());
+        }
         return ResponseEntity.ok(hotels);
     }
 
@@ -47,6 +50,9 @@ public class HotelController {
     @GetMapping("/getHotel")
     public ResponseEntity<?> getHotel(@RequestParam String to) {
         Hotel hotel = hotelRepository.findHotelByTo(to);
+        List<Room> rooms = roomRepository.findAllByHotel_Id(hotel.getId());
+        Collections.sort(rooms, new SortRoomsByPrice());
+        hotel.setRooms(rooms);
         return ResponseEntity.ok(hotel);
     }
 
