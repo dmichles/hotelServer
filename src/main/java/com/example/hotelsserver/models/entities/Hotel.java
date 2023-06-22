@@ -1,10 +1,10 @@
 package com.example.hotelsserver.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
+
 
 
 @Entity
@@ -28,14 +28,18 @@ public class Hotel {
     @ElementCollection
     private List<String> amenities;
 
+    private String rating;
 
-    public Hotel(String name, String picUrl, String to, List<Room> rooms, String stars, List<String> amenities) {
+
+    public Hotel(String name, String picUrl, String to, List<Room> rooms,
+                 String stars, List<String> amenities, String rating) {
         this.name = name;
         this.picUrl = picUrl;
         this.to = to;
         this.rooms = rooms;
         this.stars = stars;
         this.amenities = amenities;
+        this.rating = rating;
     }
 
     public Hotel() {
@@ -96,5 +100,13 @@ public class Hotel {
 
     public void setAmenities(List<String> amenities) {
         this.amenities = amenities;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

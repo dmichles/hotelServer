@@ -33,7 +33,7 @@ public class Room {
     @JsonIgnore
     private Set<Reservation> reservations;
 
-    public Room(Long id, String roomType, BigDecimal roomPrice, Hotel hotel, String picUrl,
+    public Room(Long id, String type, BigDecimal price, Hotel hotel, String picUrl,
                 String area, String bed, String people, Set<Reservation> reservations) {
         this.id = id;
         this.type = type;
