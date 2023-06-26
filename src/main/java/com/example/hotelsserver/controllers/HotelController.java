@@ -58,10 +58,10 @@ public class HotelController {
 
     @PostMapping("/addReservation")
     public ResponseEntity<?> addReservation(@RequestBody ReservationDto reservationDto) {
-        System.out.println(reservationDto.getRoomId());
         Reservation reservation = new Reservation();
         reservation.setStartDate(reservationDto.getStartDate());
         reservation.setEndDate(reservationDto.getEndDate());
+        reservation.setTravelers(reservationDto.getTravelers());
         Room room = roomRepository.findRoomById(Long.parseLong(reservationDto.getRoomId()));
         reservation.setRoom(room);
         reservationRepository.save(reservation);
@@ -69,20 +69,24 @@ public class HotelController {
     }
 
     @GetMapping("/getReservations")
-    public ResponseEntity<?> findRooms() {
+    public ResponseEntity<?> getReservations() {
         List<Object[]> query = reservationRepository.returnObject();
-        List<QueryDto> rooms = new ArrayList<>();
+        List<QueryDto> reservations = new ArrayList<>();
 
         for (Object[] obj : query) {
-            QueryDto room = new QueryDto();
-            room.setId((Long) obj[0]);
-            room.setStartDate((String) obj[1]);
-            room.setEndDate((String) obj[2]);
-            room.setType((String) obj[3]);
-            room.setName((String) obj[4]);
-            rooms.add(room);
+            QueryDto reservation = new QueryDto();
+            reservation.setId((Long) obj[0]);
+            reservation.setStartDate((String) obj[1]);
+            reservation.setEndDate((String) obj[2]);
+            reservation.setTravelers((String) obj[3]);
+            reservation.setRoomId((Long) obj[4]);
+            reservation.setType((String) obj[5]);
+            reservation.setName((String) obj[6]);
+            reservation.setUrl((String) obj[7]);
+            reservation.setTo((String) obj[8]);
+            reservations.add(reservation);
         }
-        return ResponseEntity.ok(rooms);
+        return ResponseEntity.ok(reservations);
     }
 
     @DeleteMapping("/deleteReservation")
@@ -90,5 +94,15 @@ public class HotelController {
         Reservation reservation = reservationRepository.findReservationById(Long.parseLong(id));
         reservationRepository.delete(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/changeReservation")
+    public ResponseEntity<?> changeReservation(@RequestBody ReservationDto reservationDto){
+        Reservation reservation = reservationRepository.findReservationById(Long.parseLong(reservationDto.getId()));
+        reservation.setRoom(roomRepository.findRoomById(Long.parseLong(reservationDto.getRoomId())));
+        reservation.setStartDate(reservationDto.getStartDate());
+        reservation.setEndDate(reservationDto.getEndDate());
+        reservation.setTravelers(reservation.getTravelers());
+        reservationRepository.save(reservation);
+        return ResponseEntity.ok(reservation);
     }
 }

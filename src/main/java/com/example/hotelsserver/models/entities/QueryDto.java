@@ -4,15 +4,24 @@ public class QueryDto {
     private Long id;
     private String startDate;
     private String endDate;
+    private Long roomId;
     private String type;
     private String name;
+    private String travelers;
+    private String url;
+    private String to;
 
-    public QueryDto(Long id, String startDate, String endDate, String type, String name) {
+    public QueryDto(Long id, String startDate, String endDate, Long roomId, String type,
+                    String name, String url, String travelers, String to) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
         this.name = name;
+        this.url = url;
+        this.travelers = travelers;
+        this.to = to;
+        this.roomId = roomId;
     }
 
     public QueryDto() {}
@@ -55,5 +64,37 @@ public class QueryDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTravelers() {
+        return travelers;
+    }
+
+    public void setTravelers(String travelers) {
+        this.travelers = travelers;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }

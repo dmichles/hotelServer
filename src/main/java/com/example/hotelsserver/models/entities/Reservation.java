@@ -10,14 +10,15 @@ public class Reservation {
     private Long id;
     private String startDate;
     private String endDate;
+    private String travelers;
     @ManyToOne
     @JoinColumn(name = "room_id")
-
     private Room room;
-    public Reservation(Long id, String startDate, String endDate, Room room) {
+    public Reservation(Long id, String startDate, String endDate, String travelers, Room room) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.travelers = travelers;
         this.room = room;
     }
 
@@ -53,5 +54,13 @@ public class Reservation {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getTravelers() {
+        return travelers;
+    }
+
+    public void setTravelers(String travelers) {
+        this.travelers = travelers;
     }
 }
