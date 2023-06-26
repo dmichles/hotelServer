@@ -97,11 +97,12 @@ public class HotelController {
     }
     @PutMapping("/changeReservation")
     public ResponseEntity<?> changeReservation(@RequestBody ReservationDto reservationDto){
+        System.out.println(reservationDto.getTravelers());
         Reservation reservation = reservationRepository.findReservationById(Long.parseLong(reservationDto.getId()));
         reservation.setRoom(roomRepository.findRoomById(Long.parseLong(reservationDto.getRoomId())));
         reservation.setStartDate(reservationDto.getStartDate());
         reservation.setEndDate(reservationDto.getEndDate());
-        reservation.setTravelers(reservation.getTravelers());
+        reservation.setTravelers(reservationDto.getTravelers());
         reservationRepository.save(reservation);
         return ResponseEntity.ok(reservation);
     }
