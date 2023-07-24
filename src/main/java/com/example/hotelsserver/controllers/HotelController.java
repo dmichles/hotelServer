@@ -106,4 +106,31 @@ public class HotelController {
         reservationRepository.save(reservation);
         return ResponseEntity.ok(reservation);
     }
+
+    @GetMapping("/getLocation")
+    public ResponseEntity<?> getLocation(@RequestParam String loc) {
+        if (loc.length() > 0) {
+            loc = loc + '%';
+        }
+        List<String> locations = hotelRepository.getLocation(loc);
+        List<LocationDto> locs = new ArrayList<>();
+
+        for (String l: locations){
+            LocationDto locationDto = new LocationDto();
+            locationDto.setLocation(l);
+            locs.add(locationDto);
+        }
+
+        return ResponseEntity.ok(locs);
+    }
+
+    @GetMapping("/getHotels")
+    public ResponseEntity<?> getHotelsByLocation(@RequestParam String loc){
+        List<Hotel> hotels = hotelRepository.findHotelsByLocation(loc);
+        for (Hotel hotel: hotels) {
+            System.out.println(hotel.getName());
+            Collections.sort(hotel.getRooms(), new SortRoomsByPrice());
+        }
+        return ResponseEntity.ok(hotels);
+    }
 }

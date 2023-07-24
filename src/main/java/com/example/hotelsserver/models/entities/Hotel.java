@@ -16,6 +16,7 @@ public class Hotel {
     private Long id;
 
     private String name;
+    private String location;
     private String picUrl;
     private String to;
 
@@ -32,7 +33,7 @@ public class Hotel {
 
 
     public Hotel(String name, String picUrl, String to, List<Room> rooms,
-                 String stars, List<String> amenities, String rating) {
+                 String stars, List<String> amenities, String rating, String location) {
         this.name = name;
         this.picUrl = picUrl;
         this.to = to;
@@ -40,6 +41,7 @@ public class Hotel {
         this.stars = stars;
         this.amenities = amenities;
         this.rating = rating;
+        this.location = location;
     }
 
     public Hotel() {
@@ -108,5 +110,13 @@ public class Hotel {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
